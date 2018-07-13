@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			input.myButton {
+				display: inline-block;
+				width: 200px;
+				height: 50px;
+			}
+			input.myRadio {
+				display: inline-block;
+				width: 50px;
+				height: 25px;
+			}
+			div.spacerBIG {
+				padding-top: 25px;
+	 		}
+	 		div.spacerSMALL {
+				padding-top: 10px;
+	 		}
+		</style>
+	</head>
+	<body>
+		<form>
+			<p> This node can interact with a fictive gripper. </p>
+			<p> The "gripper" grips, by toggling tool_out[0] high, and releases by setting tool_out[1] high. </p>
+			<p> tool_in[0] reports, that the gripper is currently holding an item, and tool_in[1] reports an error </p>
+			<p> Gripper live position is expressed by tool analog in 0. </p>
+			<div class="spacerSMALL">&nbsp;</div>
+			<input class="myRadio" id="radio_grip" type="radio" name="function" value="grip" checked> GRIP NODE<br>
+			<input class="myRadio" id="radio_release" type="radio" name="function" value="release"> RELEASE NODE<br>
+			<div class="spacerBIG">&nbsp;</div>
+			<p> Click GRIP or RELEASE below, to test the gripper: </p>
+			<input class="myButton" id="btn_Grip" type="button" /><input class="myButton" id="btn_Release" type="button" /><br>
+			<div class="spacerSMALL">&nbsp;</div>
+			<label id="lbl_GripperPosition"></label><br>
+			<label id="lbl_GripperHolding"></label><br>
+			<label id="lbl_Error"></label><br>
+		</form>
+	</body>
+</html>

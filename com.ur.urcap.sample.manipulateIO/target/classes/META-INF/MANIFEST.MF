@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1531480863956
+Build-Jdk: 1.8.0_171
+Built-By: jbm
+Bundle-Activator: com.ur.urcap.sample.manipulateIO.impl.Activator
+Bundle-Category: URCap
+Bundle-ContactAddress: 123 URCap Street
+Bundle-Copyright: Copyright notice (C)
+Bundle-Description: This URCap simulates an interface to a Tool IO gripp
+ er.
+Bundle-LicenseType: Sample license
+Bundle-ManifestVersion: 2
+Bundle-Name: manipulateIO
+Bundle-SymbolicName: com.ur.urcap.sample.manipulateIO
+Bundle-Vendor: JBM
+Bundle-Version: 1.0.0.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Import-Package: com.ur.urcap.api.contribution;version="[1.1.0,2.0.0)",co
+ m.ur.urcap.api.domain;version="[1.1.0,2.0.0)",com.ur.urcap.api.domain.d
+ ata;version="[1.1.0,2.0.0)",com.ur.urcap.api.domain.io;version="[1.1.0,
+ 2.0.0)",com.ur.urcap.api.domain.script;version="[1.1.0,2.0.0)",com.ur.u
+ rcap.api.ui.annotation;version="[1.1.0,2.0.0)",com.ur.urcap.api.ui.comp
+ onent;version="[1.1.0,2.0.0)",org.osgi.framework;version="[1.6,2)"
+Tool: Bnd-2.1.0.20130426-122213
