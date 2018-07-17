@@ -13,26 +13,23 @@ public class ManipulateSwingProgramNodeService implements SwingProgramNodeServic
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
-		return null;
+		return "manipulateNode";
 	}
 
 	@Override
 	public void configureContribution(ContributionConfiguration configuration) {
-		// TODO Auto-generated method stub
-		
+		configuration.setChildrenAllowed(false);
+		configuration.setUserInsertable(true);
 	}
 
 	@Override
 	public String getTitle(Locale locale) {
-		// TODO Auto-generated method stub
-		return null;
+		return "IO Toggle";
 	}
 
 	@Override
 	public ManipulateProgramNodeView createView(ViewAPIProvider apiProvider) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ManipulateProgramNodeView(apiProvider);
 	}
 
 	@Override
