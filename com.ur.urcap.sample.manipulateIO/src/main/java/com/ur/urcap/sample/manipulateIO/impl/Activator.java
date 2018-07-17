@@ -4,6 +4,7 @@ import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
 import com.ur.urcap.api.contribution.ProgramNodeService;
+import com.ur.urcap.api.contribution.program.swing.SwingProgramNodeService;
 
 /**
  * Hello world activator for the OSGi bundle URCAPS contribution
@@ -12,8 +13,8 @@ import com.ur.urcap.api.contribution.ProgramNodeService;
 public class Activator implements BundleActivator {
 	@Override
 	public void start(BundleContext bundleContext) throws Exception {
-		ManipulateProgramService manipulateProgramService = new ManipulateProgramService();
-		bundleContext.registerService(ProgramNodeService.class, manipulateProgramService, null);
+		ManipulateSwingProgramNodeService manipulateProgramService = new ManipulateSwingProgramNodeService();
+		bundleContext.registerService(SwingProgramNodeService.class, manipulateProgramService, null);
 	}
 
 	@Override

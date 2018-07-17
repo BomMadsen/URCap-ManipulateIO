@@ -35,7 +35,7 @@ public class ManipulateProgramService implements ProgramNodeService {
 
 	@Override
 	public ProgramNodeContribution createNode(URCapAPI api, DataModel model) {
-		return new ManipulateProgramContribution(api, model);
+		return null;
 	}
 }
 
