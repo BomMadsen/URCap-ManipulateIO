@@ -35,8 +35,7 @@ public class ManipulateSwingProgramNodeService implements SwingProgramNodeServic
 	@Override
 	public ManipulateProgramContribution createNode(ProgramAPIProvider apiProvider, ManipulateProgramNodeView view,
 			DataModel model, CreationContext context) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ManipulateProgramContribution(apiProvider, view, model, context);
 	}
 
 }
