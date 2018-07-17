@@ -182,7 +182,7 @@ public class ManipulateProgramContribution implements ProgramNodeContribution {
 	 * 
 	 */
 	private DigitalIO getDigitalIO(String defaultName){
-		Collection<DigitalIO> IOcollection = api.getIOs().getIOs(DigitalIO.class);
+		Collection<DigitalIO> IOcollection = programAPI.getIOModel().getIOs(DigitalIO.class);
 		int IO_count = IOcollection.size();
 		if(IO_count > 0){
 			Iterator<DigitalIO> IO_itr = IOcollection.iterator();
@@ -209,7 +209,7 @@ public class ManipulateProgramContribution implements ProgramNodeContribution {
 	 * 
 	 */
 	private AnalogIO getAnalogIO(String defaultName){
-		Collection<AnalogIO> IOcollection = api.getIOs().getIOs(AnalogIO.class);
+		Collection<AnalogIO> IOcollection = programAPI.getIOModel().getIOs(AnalogIO.class);
 		int IO_count = IOcollection.size();
 		if(IO_count > 0){
 			Iterator<AnalogIO> IO_itr = IOcollection.iterator();
