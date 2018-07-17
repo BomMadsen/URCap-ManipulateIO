@@ -50,25 +50,25 @@ public class ManipulateProgramContribution implements ProgramNodeContribution {
 		analog_in2 = getAnalogIO("analog_in[2]");
 	}
 	
-	@Input(id="radio_grip")
+//	@Input(id="radio_grip")
 	InputRadioButton RADIO_GRIP;
 	
-	@Input(id="radio_release")
+//	@Input(id="radio_release")
 	InputRadioButton RADIO_RELEASE;
 	
-	@Input(id="btn_Grip")
+//	@Input(id="btn_Grip")
 	InputButton BTN_GRIP;
 	
-	@Input(id="btn_Release")
+//	@Input(id="btn_Release")
 	InputButton BTN_RELEASE;
 	
-	@Label(id="lbl_GripperPosition")
+//	@Label(id="lbl_GripperPosition")
 	LabelComponent LBL_GripperPos;
 	
-	@Label(id="lbl_GripperHolding")
+//	@Label(id="lbl_GripperHolding")
 	LabelComponent LBL_GripperHolding;
 	
-	@Label(id="lbl_Error")
+//	@Label(id="lbl_Error")
 	LabelComponent LBL_Error;
 	
 	/************************'
@@ -82,14 +82,14 @@ public class ManipulateProgramContribution implements ProgramNodeContribution {
 	private DigitalIO tool_in1;
 	private AnalogIO analog_in2;
 	
-	@Input(id="btn_Grip")
+//	@Input(id="btn_Grip")
 	public void onTestGripClick(InputEvent event){
 		if(event.getEventType() == InputEvent.EventType.ON_PRESSED){
 			testGrip();
 		}
 	}
 	
-	@Input(id="btn_Release")
+//	@Input(id="btn_Release")
 	public void onTestReleaseClick(InputEvent event){
 		if(event.getEventType() == InputEvent.EventType.ON_PRESSED){
 			testRelease();
@@ -232,7 +232,7 @@ public class ManipulateProgramContribution implements ProgramNodeContribution {
 	
 	private static final String KEY_NODEFUNCTION = "gripperNodeFunction";
 	
-	@Input(id="radio_grip")
+//	@Input(id="radio_grip")
 	public void inRadioChange(InputEvent event){
 		if(event.getEventType() == InputEvent.EventType.ON_CHANGE){
 			setGripNode(RADIO_GRIP.isSelected());
@@ -277,27 +277,27 @@ public class ManipulateProgramContribution implements ProgramNodeContribution {
 	
 	@Override
 	public void openView() {
-		BTN_GRIP.setText("GRIP");
-		BTN_RELEASE.setText("RELEASE");
-		if(isGripNode()){
-			RADIO_GRIP.setSelected();
-		}
-		else{
-			RADIO_RELEASE.setSelected();
-		}
-		
-		uiTimer = new Timer(true);
-		uiTimer.schedule(new TimerTask() {
-			@Override
-			public void run() {
-				EventQueue.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						updateLabels();
-					}
-				});
-			}
-		}, 0, 500);
+//		BTN_GRIP.setText("GRIP");
+//		BTN_RELEASE.setText("RELEASE");
+//		if(isGripNode()){
+//			RADIO_GRIP.setSelected();
+//		}
+//		else{
+//			RADIO_RELEASE.setSelected();
+//		}
+//		
+//		uiTimer = new Timer(true);
+//		uiTimer.schedule(new TimerTask() {
+//			@Override
+//			public void run() {
+//				EventQueue.invokeLater(new Runnable() {
+//					@Override
+//					public void run() {
+//						updateLabels();
+//					}
+//				});
+//			}
+//		}, 0, 500);
 	}
 
 	@Override
