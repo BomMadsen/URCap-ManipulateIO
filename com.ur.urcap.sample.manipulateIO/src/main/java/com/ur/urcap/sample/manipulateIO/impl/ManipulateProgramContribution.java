@@ -9,6 +9,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import com.ur.urcap.api.contribution.ProgramNodeContribution;
+import com.ur.urcap.api.contribution.program.CreationContext;
+import com.ur.urcap.api.contribution.program.ProgramAPIProvider;
+import com.ur.urcap.api.domain.ProgramAPI;
 import com.ur.urcap.api.domain.URCapAPI;
 import com.ur.urcap.api.domain.data.DataModel;
 import com.ur.urcap.api.domain.script.ScriptWriter;
@@ -29,12 +32,15 @@ import com.ur.urcap.api.domain.io.DigitalIO;
 
 public class ManipulateProgramContribution implements ProgramNodeContribution {
 
-	private final URCapAPI api;
+	private final ProgramAPI programAPI;
 	private final DataModel model;
+	private final ManipulateProgramNodeView view;
 
-	public ManipulateProgramContribution(URCapAPI api, DataModel model) {
-		this.api = api;
+	public ManipulateProgramContribution(ProgramAPIProvider apiProvider, ManipulateProgramNodeView view,
+			DataModel model, CreationContext context) {
+		this.programAPI = apiProvider.getProgramAPI();
 		this.model = model;
+		this.view = view;
 		
 		// Grab the IO's here, so we do not have to iterate endlessly to find them again
 		tool_out0 = getDigitalIO("tool_out[0]");
