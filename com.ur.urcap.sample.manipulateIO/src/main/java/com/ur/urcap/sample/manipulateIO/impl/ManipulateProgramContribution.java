@@ -15,6 +15,8 @@ import com.ur.urcap.api.domain.ProgramAPI;
 import com.ur.urcap.api.domain.URCapAPI;
 import com.ur.urcap.api.domain.data.DataModel;
 import com.ur.urcap.api.domain.script.ScriptWriter;
+import com.ur.urcap.api.domain.undoredo.UndoRedoManager;
+import com.ur.urcap.api.domain.undoredo.UndoableChanges;
 import com.ur.urcap.api.ui.annotation.Input;
 import com.ur.urcap.api.ui.annotation.Label;
 import com.ur.urcap.api.ui.component.InputButton;
@@ -35,12 +37,14 @@ public class ManipulateProgramContribution implements ProgramNodeContribution {
 	private final ProgramAPI programAPI;
 	private final DataModel model;
 	private final ManipulateProgramNodeView view;
+	private final UndoRedoManager undoRedoManager;
 
 	public ManipulateProgramContribution(ProgramAPIProvider apiProvider, ManipulateProgramNodeView view,
 			DataModel model, CreationContext context) {
 		this.programAPI = apiProvider.getProgramAPI();
 		this.model = model;
 		this.view = view;
+		this.undoRedoManager = apiProvider.getProgramAPI().getUndoRedoManager();
 		
 		// Grab the IO's here, so we do not have to iterate endlessly to find them again
 		tool_out0 = getDigitalIO("tool_out[0]");
@@ -232,18 +236,22 @@ public class ManipulateProgramContribution implements ProgramNodeContribution {
 	
 	private static final String KEY_NODEFUNCTION = "gripperNodeFunction";
 	
-//	@Input(id="radio_grip")
-	public void inRadioChange(InputEvent event){
-		if(event.getEventType() == InputEvent.EventType.ON_CHANGE){
-			setGripNode(RADIO_GRIP.isSelected());
-		}
-	}
-	
 	private boolean isGripNode(){
 		return model.get(KEY_NODEFUNCTION, true);
 	}
-	private void setGripNode(boolean gripNotRelease){
-		model.set(KEY_NODEFUNCTION, gripNotRelease);
+	
+	/*****
+	 * Called by View to select whether this is a Grip or Release node
+	 * @param gripNotRelease True if Grip, False if Release
+	 */
+	public void setGripNode(final boolean gripNotRelease){
+		// Capture the changes as an undoable action
+		undoRedoManager.recordChanges(new UndoableChanges() {
+			@Override
+			public void executeChanges() {
+				model.set(KEY_NODEFUNCTION, gripNotRelease);
+			}
+		});
 	}
 	
 	/*************
@@ -277,6 +285,9 @@ public class ManipulateProgramContribution implements ProgramNodeContribution {
 	
 	@Override
 	public void openView() {
+		System.out.println("openView of ManipulateIO program node");
+		view.setRadioButtons(isGripNode());
+		
 //		BTN_GRIP.setText("GRIP");
 //		BTN_RELEASE.setText("RELEASE");
 //		if(isGripNode()){

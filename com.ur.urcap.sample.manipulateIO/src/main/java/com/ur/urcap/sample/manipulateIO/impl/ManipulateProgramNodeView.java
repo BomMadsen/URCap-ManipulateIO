@@ -1,9 +1,16 @@
 package com.ur.urcap.sample.manipulateIO.impl;
 
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
 import com.ur.urcap.api.contribution.ContributionProvider;
 import com.ur.urcap.api.contribution.ViewAPIProvider;
@@ -14,23 +21,89 @@ public class ManipulateProgramNodeView implements SwingProgramNodeView<Manipulat
 	private final ViewAPIProvider apiProvider;
 	
 	public ManipulateProgramNodeView(ViewAPIProvider apiProvider) {
+		System.out.println("Constructing ManipulateIO View-class");
 		this.apiProvider = apiProvider;
 	}
 	
+	private ButtonGroup nodeFunctionButtonGroup = new ButtonGroup();
+	private ActionListener nodeFunctionActionListener;
+	private JRadioButton gripRadioButton = new JRadioButton("Grip");
+	private JRadioButton releaseRadioButton = new JRadioButton("Release");
+	
 	@Override
 	public void buildUI(JPanel panel, ContributionProvider<ManipulateProgramContribution> provider) {
+		System.out.println("Building ManipulateIO UI");
+		
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
 		panel.add(createDescriptionLabel("This node can interact with a fictive gripper."));
-		panel.add(createDescriptionLabel("The \"gripper\" grips, by toggling tool_out[0] high, and releases by setting tool_out[1] high."));
-		panel.add(createDescriptionLabel("tool_in[0] reports, that the gripper is currently holding an item, and tool_in[1] reports an error"));
-		panel.add(createDescriptionLabel("Gripper live position is expressed by tool analog in 0."));
+		panel.add(createHorizontalSpacer(5));
+		panel.add(createDescriptionLabel("When gripped: tool_out[0]=high, tool_out[1]=low"));
+		panel.add(createDescriptionLabel("When released: tool_out[1]=high, tool_out[0]=low"));
+		panel.add(createHorizontalSpacer(5));
+		panel.add(createDescriptionLabel("Gripper holding reported with tool_in[0], high = holding"));
+		panel.add(createDescriptionLabel("Gripper error reported with tool_in[1], high = error"));
+		panel.add(createDescriptionLabel("Gripper position reported on tool analog in 0"));
 		
+		panel.add(createHorizontalSpacer(15));
 		
+		configureNodeFunctionRadioButtons(provider);
+		panel.add(createRadioButton("Grip", gripRadioButton, nodeFunctionActionListener));
+		panel.add(createHorizontalSpacer(5));
+		panel.add(createRadioButton("Release", releaseRadioButton, nodeFunctionActionListener));
+		
+		System.out.println("Done building ManipulateIO UI");
 	}
 	
+	/*****
+	 * Call-ins from Contribution
+	 */
+	
+	public void setRadioButtons(boolean gripActive) {
+		gripRadioButton.setSelected(gripActive);
+		releaseRadioButton.setSelected(!gripActive);
+	}
+	
+	/*****
+	 * Configuration
+	 */
+	
+	private void configureNodeFunctionRadioButtons(final ContributionProvider<ManipulateProgramContribution> provider) {
+		nodeFunctionButtonGroup.add(gripRadioButton);
+		nodeFunctionButtonGroup.add(releaseRadioButton);
+		
+		nodeFunctionActionListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Radio button action listener: "+e.getActionCommand());
+				boolean gripSelected = e.getActionCommand().equals("Grip");
+				provider.get().setGripNode(gripSelected);
+			}
+		};
+	}
+	
+	/*****
+	 * Rather generic component builders
+	 */
+	
+	/*****
+	 * Creates a rigid area with the specified height
+	 * @param height The height of the spacer
+	 * @return A Component that can be used as a spacer
+	 */
+	private Component createHorizontalSpacer(int height){
+		Component spacer = Box.createRigidArea(new Dimension(0, height));
+		return spacer;
+	}
+	
+	/*****
+	 * Creates a Box with a Label containing the specified text
+	 * @param text The specified text
+	 * @return The creates box
+	 */
 	private Box createDescriptionLabel(String text) {
 		Box box = Box.createHorizontalBox();
+		box.setAlignmentX(Component.LEFT_ALIGNMENT);
 		
 		JLabel label = new JLabel(text);
 		
@@ -38,5 +111,26 @@ public class ManipulateProgramNodeView implements SwingProgramNodeView<Manipulat
 		
 		return box;
 	}
+	
+	/*****
+	 * 
+	 * @param label
+	 * @param radioButton
+	 * @param actionListener
+	 * @return
+	 */
+	private Box createRadioButton(String name, JRadioButton radioButton, ActionListener actionListener) {
+		Box box = Box.createHorizontalBox();
+		box.setAlignmentX(Component.LEFT_ALIGNMENT);
+		
+		radioButton.addActionListener(actionListener);
+		radioButton.setActionCommand(name);
+		
+		box.add(radioButton);
+		
+		return box;
+	}
+	
+	
 	
 }
