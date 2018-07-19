@@ -19,6 +19,7 @@ import com.ur.urcap.api.contribution.program.swing.SwingProgramNodeView;
 public class ManipulateProgramNodeView implements SwingProgramNodeView<ManipulateProgramContribution> {
 
 	private final ViewAPIProvider apiProvider;
+	private final boolean showGripperLiveControl = true;
 	
 	public ManipulateProgramNodeView(ViewAPIProvider apiProvider) {
 		System.out.println("Constructing ManipulateIO View-class");
@@ -29,6 +30,8 @@ public class ManipulateProgramNodeView implements SwingProgramNodeView<Manipulat
 	private ActionListener nodeFunctionActionListener;
 	private JRadioButton gripRadioButton = new JRadioButton("Grip");
 	private JRadioButton releaseRadioButton = new JRadioButton("Release");
+	
+	private GripperLiveControl liveControl;
 	
 	@Override
 	public void buildUI(JPanel panel, ContributionProvider<ManipulateProgramContribution> provider) {
@@ -52,6 +55,18 @@ public class ManipulateProgramNodeView implements SwingProgramNodeView<Manipulat
 		panel.add(createHorizontalSpacer(5));
 		panel.add(createRadioButton("Release", releaseRadioButton, nodeFunctionActionListener));
 		
+		if(showGripperLiveControl) {
+			liveControl = new GripperLiveControl(provider);
+			liveControl.createUI();
+			
+			Box box = Box.createVerticalBox();
+			box.setAlignmentX(Component.LEFT_ALIGNMENT);
+			box.add(liveControl);
+			
+			panel.add(createHorizontalSpacer(15));
+			panel.add(box);
+		}
+		
 		System.out.println("Done building ManipulateIO UI");
 	}
 	
@@ -62,6 +77,18 @@ public class ManipulateProgramNodeView implements SwingProgramNodeView<Manipulat
 	public void setRadioButtons(boolean gripActive) {
 		gripRadioButton.setSelected(gripActive);
 		releaseRadioButton.setSelected(!gripActive);
+	}
+	
+	public void updateLiveControl() {
+		if(showGripperLiveControl) {
+			liveControl.openView();
+		}
+	}
+	
+	public void stopLiveControl() {
+		if(showGripperLiveControl) {
+			liveControl.closeView();
+		}
 	}
 	
 	/*****

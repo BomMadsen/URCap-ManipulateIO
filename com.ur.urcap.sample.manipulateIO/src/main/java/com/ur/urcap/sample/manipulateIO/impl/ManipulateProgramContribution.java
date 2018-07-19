@@ -46,120 +46,16 @@ public class ManipulateProgramContribution implements ProgramNodeContribution {
 		this.view = view;
 		this.undoRedoManager = apiProvider.getProgramAPI().getUndoRedoManager();
 		
-		// Grab the IO's here, so we do not have to iterate endlessly to find them again
-		tool_out0 = getDigitalIO("tool_out[0]");
-		tool_out1 = getDigitalIO("tool_out[1]");
-		tool_in0 = getDigitalIO("tool_in[0]");
-		tool_in1 = getDigitalIO("tool_in[1]");
-		analog_in2 = getAnalogIO("analog_in[2]");
 	}
 	
-//	@Input(id="radio_grip")
-	InputRadioButton RADIO_GRIP;
-	
-//	@Input(id="radio_release")
-	InputRadioButton RADIO_RELEASE;
-	
-//	@Input(id="btn_Grip")
-	InputButton BTN_GRIP;
-	
-//	@Input(id="btn_Release")
-	InputButton BTN_RELEASE;
-	
-//	@Label(id="lbl_GripperPosition")
-	LabelComponent LBL_GripperPos;
-	
-//	@Label(id="lbl_GripperHolding")
-	LabelComponent LBL_GripperHolding;
-	
-//	@Label(id="lbl_Error")
-	LabelComponent LBL_Error;
 	
 	/************************'
 	 * Methods for manipulating IO's from Java
 	 * 
 	 */
+
 	
-	private DigitalIO tool_out0;
-	private DigitalIO tool_out1;
-	private DigitalIO tool_in0;
-	private DigitalIO tool_in1;
-	private AnalogIO analog_in2;
-	
-//	@Input(id="btn_Grip")
-	public void onTestGripClick(InputEvent event){
-		if(event.getEventType() == InputEvent.EventType.ON_PRESSED){
-			testGrip();
-		}
-	}
-	
-//	@Input(id="btn_Release")
-	public void onTestReleaseClick(InputEvent event){
-		if(event.getEventType() == InputEvent.EventType.ON_PRESSED){
-			testRelease();
-		}
-	}
-	
-	private void testGrip(){
-		if(tool_out0!=null && tool_out1 != null){
-			tool_out1.setValue(false);
-			tool_out0.setValue(true);
-		}
-	}
-	
-	private void testRelease(){
-		if(tool_out0!=null && tool_out1 != null){
-			tool_out1.setValue(true);
-			tool_out0.setValue(false);
-		}
-	}
-	
-	private String gripperPosition(){
-		if(tool_out1 != null && tool_out1 != null){
-			if(tool_out0.getValue() && !tool_out1.getValue()){
-				return "Closed";
-			}
-			else if (!tool_out0.getValue() && tool_out1.getValue()){
-				return "Open";
-			}
-		}
-		// Error
-		return "Unknown";
-	}
-	
-	private int getAnalogGripperPosition(){
-		if(analog_in2 != null){
-			// "Gripper" only works with voltage feedback
-			if(analog_in2.isVoltage()){
-				double max = analog_in2.getMaxRangeValue();
-				double min = analog_in2.getMinRangeValue();
-				double actual = analog_in2.getValue();
-				
-				int openness = (int) Math.round((actual-min)/(max-min) * 100);
-				return openness;
-			}
-		}
-		// Error
-		return 0;
-	}
-	
-	private boolean isGripperHolding(){
-		if(tool_in0 != null){
-			// High for holding, low for lost... 
-			return tool_in0.getValue();
-		}
-		// Error
-		return false;
-	}
-	
-	private boolean isGripperError(){
-		if(tool_in1 != null){
-			// High for error, low for no error 
-			return tool_in1.getValue();
-		}
-		// Error
-		return false;
-	}
+
 	
 	/*Returns a DigitalIO object found by its default name
 	 * Default names are: 
@@ -258,28 +154,7 @@ public class ManipulateProgramContribution implements ProgramNodeContribution {
 	 * Methods for setting up GUI and labels
 	 */
 	
-	private void updateLabels(){
-		LBL_GripperPos.setText("Gripper Position: "+gripperPosition()+" / "+getAnalogGripperPosition()+" mm");
-		
-		String gripperHoldingText = "Gripper Holding Status: ";
-		if(isGripperHolding()){
-			gripperHoldingText += "Holding";
-		}
-		else{
-			gripperHoldingText += "Not holding";
-		}
-		LBL_GripperHolding.setText(gripperHoldingText);
-		
-		String gripperErrorStatus = "Error Status: ";
-		if(isGripperError()){
-			gripperErrorStatus += "Gripper Error!";
-		}
-		else{
-			gripperErrorStatus += "No errors to report.";
-		}
-		LBL_Error.setText(gripperErrorStatus);
-		
-	}
+	
 	
 	private Timer uiTimer;
 	
@@ -287,35 +162,14 @@ public class ManipulateProgramContribution implements ProgramNodeContribution {
 	public void openView() {
 		System.out.println("openView of ManipulateIO program node");
 		view.setRadioButtons(isGripNode());
+		view.updateLiveControl();
+
 		
-//		BTN_GRIP.setText("GRIP");
-//		BTN_RELEASE.setText("RELEASE");
-//		if(isGripNode()){
-//			RADIO_GRIP.setSelected();
-//		}
-//		else{
-//			RADIO_RELEASE.setSelected();
-//		}
-//		
-//		uiTimer = new Timer(true);
-//		uiTimer.schedule(new TimerTask() {
-//			@Override
-//			public void run() {
-//				EventQueue.invokeLater(new Runnable() {
-//					@Override
-//					public void run() {
-//						updateLabels();
-//					}
-//				});
-//			}
-//		}, 0, 500);
 	}
 
 	@Override
 	public void closeView() {
-		if(uiTimer != null){
-			uiTimer.cancel();
-		}
+		view.stopLiveControl();
 	}
 
 	@Override
@@ -345,6 +199,10 @@ public class ManipulateProgramContribution implements ProgramNodeContribution {
 			writer.appendLine("set_tool_digital_out(1, True)");
 			writer.sleep(0.2);
 		}
+	}
+	
+	public ProgramAPI getProgramAPI() {
+		return this.programAPI;
 	}
 
 }
