@@ -48,83 +48,6 @@ public class ManipulateProgramContribution implements ProgramNodeContribution {
 		
 	}
 	
-	
-	/************************'
-	 * Methods for manipulating IO's from Java
-	 * 
-	 */
-
-	
-
-	
-	/*Returns a DigitalIO object found by its default name
-	 * Default names are: 
-	 * 	digital_in[0]
-	 *  digital_in[1]
-	 *  ...
-	 *  digital_in[7]
-	 *  digital_out[0]
-	 *  digital_out[1]
-	 *  ...
-	 *  digital_out[7]
-	 *  tool_in[0]
-	 *  tool_in[1]
-	 *  tool_out[0]
-	 *  tool_out[1]
-	 *  config_in[0]
-	 *  config_in[1]
-	 *  ...
-	 *  config_in[7]
-	 *  config_out[0]
-	 *  config_out[1]
-	 *  ...
-	 *  config_out[7]
-	 * 
-	 */
-	private DigitalIO getDigitalIO(String defaultName){
-		Collection<DigitalIO> IOcollection = programAPI.getIOModel().getIOs(DigitalIO.class);
-		int IO_count = IOcollection.size();
-		if(IO_count > 0){
-			Iterator<DigitalIO> IO_itr = IOcollection.iterator();
-			while(IO_itr.hasNext()){
-				DigitalIO thisIO = IO_itr.next();
-				String thisDefaultName = thisIO.getDefaultName();
-				System.out.println("Found an IO named "+thisDefaultName);
-				if(thisDefaultName.equals(defaultName)){
-					return thisIO;
-				}
-			}
-		}
-		return null;
-	}
-	
-	/*Returns an AnalogIO object found by its default name
-	 * Default names are: 
-	 *  analog_in[0]
-	 *  analog_in[1]
-	 *  analog_in[2] 	(Tool analog in 0)
-	 *  analog_in[3]	(Tool analog in 1)
-	 *  analog_out[0]
-	 *  analog_out[1]
-	 * 
-	 */
-	private AnalogIO getAnalogIO(String defaultName){
-		Collection<AnalogIO> IOcollection = programAPI.getIOModel().getIOs(AnalogIO.class);
-		int IO_count = IOcollection.size();
-		if(IO_count > 0){
-			Iterator<AnalogIO> IO_itr = IOcollection.iterator();
-			while(IO_itr.hasNext()){
-				AnalogIO thisIO = IO_itr.next();
-				String thisDefaultName = thisIO.getDefaultName();
-				System.out.println("Found an IO named "+thisDefaultName);
-				if(thisDefaultName.equals(defaultName)){
-					return thisIO;
-				}
-			}
-		}
-		return null;
-	}
-	
 	/*************************'
 	 * Methods for generating the correct script for runtime
 	 * 
@@ -151,20 +74,14 @@ public class ManipulateProgramContribution implements ProgramNodeContribution {
 	}
 	
 	/*************
-	 * Methods for setting up GUI and labels
+	 * Methods for setting up GUI
 	 */
-	
-	
-	
-	private Timer uiTimer;
-	
+
 	@Override
 	public void openView() {
 		System.out.println("openView of ManipulateIO program node");
 		view.setRadioButtons(isGripNode());
 		view.updateLiveControl();
-
-		
 	}
 
 	@Override

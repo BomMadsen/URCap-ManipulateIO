@@ -1,15 +1,10 @@
 package com.ur.urcap.sample.manipulateIO.impl;
 
 import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -18,17 +13,17 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-
 import com.ur.urcap.api.contribution.ContributionProvider;
 import com.ur.urcap.api.domain.ApplicationAPI;
 import com.ur.urcap.api.domain.io.AnalogIO;
 import com.ur.urcap.api.domain.io.DigitalIO;
-import com.ur.urcap.api.domain.io.IOModel;
-import com.ur.urcap.api.ui.component.InputEvent;
 
 public class GripperLiveControl extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final ContributionProvider<ManipulateProgramContribution> provider;
 	private final ApplicationAPI applicationAPI;
 	
@@ -109,20 +104,20 @@ public class GripperLiveControl extends JPanel {
 	public void openView() {
 		if(ioHandler==null) {
 			InitializeIO();
-			
-			uiTimer = new Timer(true);
-			uiTimer.schedule(new TimerTask() {
-				@Override
-				public void run() {
-					EventQueue.invokeLater(new Runnable() {
-						@Override
-						public void run() {
-							UpdateStatusLabels();
-						}
-					});
-				}
-			}, 0, 500);
 		}
+		
+		uiTimer = new Timer(true);
+		uiTimer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				EventQueue.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						UpdateStatusLabels();
+					}
+				});
+			}
+		}, 0, 500);
 	}
 	
 	public void closeView() {
@@ -212,6 +207,9 @@ public class GripperLiveControl extends JPanel {
 		JLabel desc = new JLabel(description);
 		desc.setPreferredSize(new Dimension(200, 20));
 		desc.setMinimumSize(desc.getPreferredSize());
+		
+		status.setPreferredSize(new Dimension(200, 20));
+		status.setMinimumSize(status.getPreferredSize());
 		
 		box.add(desc);
 		box.add(status);
