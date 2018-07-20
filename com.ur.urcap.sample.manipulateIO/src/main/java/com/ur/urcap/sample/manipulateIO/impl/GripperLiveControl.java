@@ -67,6 +67,8 @@ public class GripperLiveControl extends JPanel {
 		this.contributionType = ContributionType.PROGRAMNODE;
 	}
 	
+	// provider.get() cannot be called in buildUI, so we may first initialize this in openView
+	// Anyway the user will only look at it, when the view is opened :-) 
 	private void InitializeIO() {
 		if(contributionType.equals(ContributionType.TOOLBAR)) {
 			this.ioHandler = new IOHandler(applicationAPI.getIOModel());
@@ -87,6 +89,7 @@ public class GripperLiveControl extends JPanel {
 	private JLabel gripperError = new JLabel();
 	
 	public void createUI() {
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setAlignmentX(LEFT_ALIGNMENT);
 		
 		this.add(createDescriptionLabel("Click GRIP or RELEASE below, to test the gripper:"));
