@@ -1,5 +1,6 @@
 package com.ur.urcap.sample.manipulateIO.impl;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -79,9 +80,9 @@ public class GripperLiveControl extends JPanel {
 	}
 	
 	// Updatable labels
-	private JLabel gripperPosition = new JLabel();
-	private JLabel gripperHolding = new JLabel();
-	private JLabel gripperError = new JLabel();
+	private JLabel gripperPosition = new JLabel(" < gripperPosition > ");
+	private JLabel gripperHolding = new JLabel(" < gripperHolding > ");
+	private JLabel gripperError = new JLabel(" < gripperError > ");
 	
 	public void createUI() {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -207,9 +208,11 @@ public class GripperLiveControl extends JPanel {
 		JLabel desc = new JLabel(description);
 		desc.setPreferredSize(new Dimension(200, 20));
 		desc.setMinimumSize(desc.getPreferredSize());
+		desc.setMaximumSize(desc.getPreferredSize());
 		
 		status.setPreferredSize(new Dimension(200, 20));
 		status.setMinimumSize(status.getPreferredSize());
+		status.setMaximumSize(status.getPreferredSize());
 		
 		box.add(desc);
 		box.add(status);
