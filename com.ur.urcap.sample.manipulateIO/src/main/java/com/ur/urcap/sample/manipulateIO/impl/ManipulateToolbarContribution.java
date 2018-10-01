@@ -23,11 +23,7 @@ public class ManipulateToolbarContribution implements SwingToolbarContribution {
 		liveControl = new GripperLiveControl(this.apiProvider.getApplicationAPI());
 		liveControl.createUI();
 		
-		Box box = Box.createVerticalBox();
-		box.setAlignmentX(Component.LEFT_ALIGNMENT);
-		box.add(liveControl);
-		
-		panel.add(box);
+		panel.add(liveControl);
 	}
 
 	@Override
