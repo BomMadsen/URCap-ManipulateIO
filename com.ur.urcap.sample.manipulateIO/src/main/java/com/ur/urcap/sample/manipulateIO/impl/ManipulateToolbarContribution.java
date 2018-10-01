@@ -1,8 +1,5 @@
 package com.ur.urcap.sample.manipulateIO.impl;
 
-import java.awt.Component;
-
-import javax.swing.Box;
 import javax.swing.JPanel;
 
 import com.ur.urcap.api.contribution.toolbar.ToolbarAPIProvider;
