@@ -1,0 +1,17 @@
+# use glob syntax.
+syntax: glob
+*.class
+*~
+*.bak
+*.off
+*.old
+
+# Eclipse
+.classpath
+.project
+.settings
+
+com.ur.urcap.sample.manipulateIO/target/generated-sources/
+com.ur.urcap.sample.manipulateIO/target/generated-test-sources/
+com.ur.urcap.sample.manipulateIO/target/classes/
+com.ur.urcap.sample.manipulateIO/.settings/
