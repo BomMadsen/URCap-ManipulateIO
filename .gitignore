@@ -15,3 +15,5 @@ com.ur.urcap.sample.manipulateIO/target/generated-sources/
 com.ur.urcap.sample.manipulateIO/target/generated-test-sources/
 com.ur.urcap.sample.manipulateIO/target/classes/
 com.ur.urcap.sample.manipulateIO/.settings/
+com.ur.urcap.sample.manipulateIO/target/maven-status/
+com.ur.urcap.sample.manipulateIO/target/surefire-reports/
