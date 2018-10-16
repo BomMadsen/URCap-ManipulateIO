@@ -1,16 +1,20 @@
 package com.jbm.urcap.sample.manipulateIO.impl;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 
 import com.ur.urcap.api.contribution.ContributionProvider;
 import com.ur.urcap.api.contribution.ViewAPIProvider;
@@ -58,6 +62,12 @@ public class ManipulateProgramNodeView implements SwingProgramNodeView<Manipulat
 		if(showGripperLiveControl) {
 			liveControl = new GripperLiveControl(provider);
 			liveControl.createUI();
+			
+			TitledBorder liveControlBorder;
+			Border border = BorderFactory.createLineBorder(new Color(179, 179, 179));
+			liveControlBorder = BorderFactory.createTitledBorder(border, "Live Control");
+			liveControlBorder.setTitleJustification(TitledBorder.CENTER);
+			liveControl.setBorder(liveControlBorder);
 			
 			Box box = Box.createVerticalBox();
 			box.setAlignmentX(Component.LEFT_ALIGNMENT);
