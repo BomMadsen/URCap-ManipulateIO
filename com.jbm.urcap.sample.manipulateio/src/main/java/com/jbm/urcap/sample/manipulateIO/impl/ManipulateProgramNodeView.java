@@ -19,15 +19,25 @@ import javax.swing.border.TitledBorder;
 import com.ur.urcap.api.contribution.ContributionProvider;
 import com.ur.urcap.api.contribution.ViewAPIProvider;
 import com.ur.urcap.api.contribution.program.swing.SwingProgramNodeView;
+import com.ur.urcap.api.domain.SoftwareVersion;
 
 public class ManipulateProgramNodeView implements SwingProgramNodeView<ManipulateProgramContribution> {
 
 	private final ViewAPIProvider apiProvider;
-	private final boolean showGripperLiveControl = true;
+	private final boolean showGripperLiveControl;
 	
 	public ManipulateProgramNodeView(ViewAPIProvider apiProvider) {
 		System.out.println("Constructing ManipulateIO View-class");
 		this.apiProvider = apiProvider;
+		
+		// Only show Live Control panel in CB3
+		// Toolbar is used for live control in e-Series
+		SoftwareVersion version = this.apiProvider.getSystemAPI().getSoftwareVersion();
+		if(version.getMajorVersion() >= 5) {
+			showGripperLiveControl = false;
+		} else {
+			showGripperLiveControl = true;
+		}
 	}
 	
 	private ButtonGroup nodeFunctionButtonGroup = new ButtonGroup();
